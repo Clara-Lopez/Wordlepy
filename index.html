@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wordle</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="word-container">
+    <h1>Wordle</h1>
+    <p id="word-display"></p>
+    <input type="text" id="guess-input" maxlength="5" placeholder="Adivina la palabra">
+    <button onclick="adivinar()">Adivinar</button>
+    <p id="resultado"></p>
+    <p id="letras-usadas"></p>
+    <p id="intentos-restantes">Intentos restantes: 6</p>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
