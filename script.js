@@ -1,61 +1,74 @@
-var palabras = ["APPLE", "ANGEL"];
-var palabraSecreta = obtenerPalabraSecreta();
-var intentosRestantes = 6;
-var letrasUsadas = [];
+var error = document.querySelector("#error");
+var grid = document.getElementById("grid");
+var intentosSpan = document.querySelector(".counter span");
+var worldInput = document.querySelector("#worldInput");
 
-function obtenerPalabraSecreta() {
-    // Puedes cambiar esto para obtener una palabra de una API
-    return palabras[Math.floor(Math.random() * palabras.length)];
-}
+gameOverDiv = document.querySelector(".gameOver");
+winDiv = document.querySelector(".win");
 
-function adivinar() {
-    var guessInput = document.getElementById("guess-input");
-    var guess = guessInput.value.toUpperCase();
+let palabra = "APPLE";
+let intentos = 6;
 
-    if (guess.length !== 5 || !/^[A-Z]+$/.test(guess)) {
-        alert("Ingresa una palabra válida de 5 letras.");
-        return;
-    }
+function comprobar() {
+  var filaNueva = document.createElement("div");
+  filaNueva.setAttribute("id", "row");
 
-    if (intentosRestantes > 0) {
-        intentosRestantes--;
-
-        var resultado = verificarAdivinanza(guess);
-
-        actualizarPantalla(resultado);
-
-        if (resultado.ganador) {
-            alert("¡Ganaste! La palabra es " + palabraSecreta);
-        } else if (intentosRestantes === 0) {
-            alert("Perdiste. La palabra era " + palabraSecreta);
-        }
+  let palabra_usuario = worldInput.value;
+  if (intentos > 0) {
+    if (palabra == palabra_usuario) {
+      win();
     } else {
-        alert("Ya has agotado todos tus intentos. La palabra era " + palabraSecreta);
-    }
-}
-
-function verificarAdivinanza(guess) {
-    var resultado = { aciertos: 0, aciertosIncorrectos: 0, ganador: false };
-    var palabraArray = palabraSecreta.split('');
-
-    for (var i = 0; i < 5; i++) {
-        if (guess[i] === palabraArray[i]) {
-            resultado.aciertos++;
-        } else if (palabraArray.includes(guess[i])) {
-            resultado.aciertosIncorrectos++;
+      if (palabra_usuario.length == 5) {
+        palabra_usuario = palabra_usuario.toUpperCase();
+        for (let i = 0; i < 5; i++) {
+          let colNueva = document.createElement("div");
+          colNueva.setAttribute("id", "col");
+          const letra = palabra_usuario[i];
+          console.log(letra);
+          if (palabra.includes(letra)) {
+            if (letra === palabra[i]) {
+              colNueva.classList.add("green");
+            } else {
+              colNueva.classList.add("yellow");
+            }
+          } else {
+            colNueva.classList.add("gray");
+          }
+          colNueva.innerText = letra;
+          filaNueva.appendChild(colNueva);
         }
+        grid.appendChild(filaNueva);
+        intentos--;
+        intentosSpan.innerText = intentos;
+        error.innerHTML = "";
+      } else {
+        console.log("Debe ingresar una palabra de 5 letras.");
+        error.innerHTML = "Debe ingresar una palabra de 5 letras.";
+      }
+      if (intentos === 0) {
+        gameOver();
+      }
     }
 
-    resultado.ganador = resultado.aciertos === 5;
-
-    letrasUsadas.push(guess);
-
-    return resultado;
+}
+  worldInput.value = "";
 }
 
-function actualizarPantalla(resultado) {
-    document.getElementById("word-display").innerText = resultado.aciertos === 5 ? palabraSecreta : "_ ".repeat(5);
-    document.getElementById("resultado").innerText = "Aciertos: " + resultado.aciertos + ", Aciertos Incorrectos: " + resultado.aciertosIncorrectos;
-    document.getElementById("letras-usadas").innerText = "Letras usadas: " + letrasUsadas.join(", ");
-    document.getElementById("intentos-restantes").innerText = "Intentos restantes: " + intentosRestantes;
+function gameOver() {
+  gameOverDiv.style.display = "block";
+  worldInput.disabled = true;
+}
+function win() {
+    winDiv.style.display = "block";
+    worldInput.disabled = true;
+}
+
+function reset() {
+    intentos = 6;
+    grid.innerHTML = "";
+    gameOverDiv.style.display = "none";
+    winDiv.style.display = "none";
+    intentosSpan.innerText = intentos;
+    worldInput.disabled = false;
+
 }

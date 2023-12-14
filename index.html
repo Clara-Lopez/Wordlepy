@@ -1,23 +1,46 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=800, initial-scale=1.0">
     <title>Wordle</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="./styles.css">
+    <script src="./script.js" defer></script>
 </head>
+
 <body>
+    <div class="container">
+        <div class="panel">
+            <div class="panel-container">
+                <h2>Wordle PPY</h2>
+                <p id="error"></p>
+                <input type="text" id="worldInput" placeholder="Ingrese una palabra de 5 letras">
+                <button id="try" onclick="comprobar()">Intentar</button>
+                <div class="counter">
+                    <p id="counter-title">Intentos Restantes</p>
+                    <span>6</span>
+                    <button id="reset" onclick="reset()">Reiniciar</button>
+                </div>
+            </div>
+        </div>
+        <div class="game">
+            <div id="grid">
+                
+            </div>
+        </div>
+    </div>
 
-<div id="word-container">
-    <h1>Wordle</h1>
-    <p id="word-display"></p>
-    <input type="text" id="guess-input" maxlength="5" placeholder="Adivina la palabra">
-    <button onclick="adivinar()">Adivinar</button>
-    <p id="resultado"></p>
-    <p id="letras-usadas"></p>
-    <p id="intentos-restantes">Intentos restantes: 6</p>
-</div>
+    <div class="gameOver">
+        <p>¡Perdiste!</p>
+        <button id="reset" onclick="reset()">Reiniciar</button>
 
-<script src="script.js"></script>
+    </div>
+    <div class="win">
+        <p>Ganaste!</p>
+        <button id="reset" onclick="reset()">Reiniciar</button>
+
+    </div>
 </body>
+
 </html>
